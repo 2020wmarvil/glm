@@ -42,23 +42,12 @@ source_group("SIMD Files" FILES ${SIMD_SOURCE})
 source_group("SIMD Files" FILES ${SIMD_INLINE})
 source_group("SIMD Files" FILES ${SIMD_HEADER})
 
-add_library(glm INTERFACE)
-
-include(GNUInstallDirs)
-
-target_include_directories(glm INTERFACE
-	$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
-	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-)
-
-install(TARGETS glm EXPORT glm)
-
-add_library(glm_static STATIC ${ROOT_TEXT} ${ROOT_MD} ${ROOT_NAT}
+add_library(glm STATIC ${ROOT_TEXT} ${ROOT_MD} ${ROOT_NAT}
 	${ROOT_SOURCE}    ${ROOT_INLINE}    ${ROOT_HEADER}
 	${CORE_SOURCE}    ${CORE_INLINE}    ${CORE_HEADER}
 	${EXT_SOURCE}     ${EXT_INLINE}     ${EXT_HEADER}
 	${GTC_SOURCE}     ${GTC_INLINE}     ${GTC_HEADER}
 	${GTX_SOURCE}     ${GTX_INLINE}     ${GTX_HEADER}
 	${SIMD_SOURCE}    ${SIMD_INLINE}    ${SIMD_HEADER})
-target_link_libraries(glm_static PUBLIC glm)
-add_library(glm::glm_static ALIAS glm_static)
+
+target_include_directories(glm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..)
